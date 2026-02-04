@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stream Rotator - Social Media Box</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: transparent;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .social-box {
+            width: 400px;
+            height: 300px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            transition: background 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* Estados por plataforma */
+        .social-box.kick {
+            background: linear-gradient(135deg, #00d084 0%, #00a86b 100%);
+        }
+
+        .social-box.instagram {
+            background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+
+        .social-box.youtube {
+            background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+        }
+
+        /* Efecto de fondo animado */
+        .social-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveBackground 20s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes moveBackground {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(50px, 50px);
+            }
+        }
+
+        .social-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .social-content.animate {
+            animation: fadeInContent 0.6s ease-out 0.2s forwards;
+        }
+
+        @keyframes fadeInContent {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .icon-wrapper {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: bounceIcon 2s ease-in-out infinite;
+        }
+
+        @keyframes bounceIcon {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .icon-wrapper i {
+            font-size: 90px;
+            color: white;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+            animation: rotateIcon 4s linear infinite;
+        }
+
+        @keyframes rotateIcon {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .platform-name {
+            font-size: 32px;
+            font-weight: 700;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+            animation: scaleText 0.6s ease-out 0.1s forwards;
+            opacity: 0;
+        }
+
+        @keyframes scaleText {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .handle {
+            font-size: 28px;
+            color: rgba(255, 255, 255, 0.95);
+            letter-spacing: 1px;
+            animation: slideInHandle 0.6s ease-out 0.3s forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideInHandle {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Particulas flotantes */
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) opacity(1);
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .particle:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .particle:nth-child(2) {
+            top: 30%;
+            right: 15%;
+            animation-delay: 0.5s;
+        }
+
+        .particle:nth-child(3) {
+            bottom: 20%;
+            right: 10%;
+            animation-delay: 1s;
+        }
+
+        .particle:nth-child(4) {
+            bottom: 25%;
+            left: 15%;
+            animation-delay: 1.5s;
+        }
+
+        /* Indicador de progreso */
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 0 0 30px 0;
+            animation: progress 3s linear;
+            z-index: 11;
+            visibility: hidden;
+        }
+
+        @keyframes progress {
+            from {
+                width: 0%;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .social-box {
+                width: 90%;
+                max-width: 400px;
+                height: auto;
+                padding: 40px 20px;
+                border-radius: 20px;
+            }
+
+            .icon-wrapper {
+                width: 80px;
+                height: 80px;
+            }
+
+            .icon-wrapper i {
+                font-size: 60px;
+            }
+
+            .platform-name {
+                font-size: 28px;
+            }
+
+            .handle {
+                font-size: 16px;
+            }
+        }
+
+        /* Para OBS - sin scroll */
+        html {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="social-box kick">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            
+            <div class="social-content">
+                <div class="icon-wrapper">
+                    <i class="fab fa-kickstarter"></i>
+                </div>
+                <div class="platform-name" id="platformName">Rain_and_Thunder</div>
+            </div>
+            
+            <div class="progress-bar"></div>
+        </div>
+    </div>
+
+    <script>
+        const platforms = [
+            {
+                name: 'KICK',
+                icon: 'fab fa-kickstarter',
+                handle: 'Rain_and_Thunder',
+                className: 'kick'
+            },
+            {
+                name: 'INSTAGRAM',
+                icon: 'fab fa-instagram',
+                handle: 'rain_and_thunder27',
+                className: 'instagram'
+            },
+            {
+                name: 'YOUTUBE',
+                icon: 'fab fa-youtube',
+                handle: 'RainandThunder27',
+                className: 'youtube'
+            }
+        ];
+
+        let currentIndex = 0;
+        const socialBox = document.querySelector('.social-box');
+        const socialContent = document.querySelector('.social-content');
+        const platformName = document.getElementById('platformName');
+        const iconWrapper = document.querySelector('.icon-wrapper');
+        const progressBar = document.querySelector('.progress-bar');
+
+        function updatePlatform() {
+            const platform = platforms[currentIndex];
+
+            // Remover animación
+            socialContent.classList.remove('animate');
+
+            // Cambiar clases y contenido
+            socialBox.classList.remove('kick', 'instagram', 'youtube');
+            socialBox.classList.add(platform.className);
+
+            platformName.textContent = platform.handle;
+            iconWrapper.innerHTML = `<i class="${platform.icon}"></i>`;
+
+            // Reiniciar animación
+            void socialContent.offsetWidth;
+            socialContent.classList.add('animate');
+
+            // Reiniciar barra de progreso
+            progressBar.style.animation = 'none';
+            void progressBar.offsetWidth;
+            progressBar.style.animation = 'progress 3s linear';
+
+            // Siguiente plataforma
+            currentIndex = (currentIndex + 1) % platforms.length;
+        }
+
+        // Inicializar
+        updatePlatform();
+
+        // Cambiar cada 3 segundos
+        setInterval(updatePlatform, 3000);
+    </script>
+</body>
+</html>
