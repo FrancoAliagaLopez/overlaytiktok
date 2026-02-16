@@ -32,18 +32,19 @@
         }
 
         .social-box {
-            width: 400px;
-            height: 300px;
+            width: 500px;
+            height: 350px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 30px;
+            border-radius: 40px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
             position: relative;
             overflow: hidden;
             transition: background 0.8s ease-out;
+            border: 3px solid rgba(255, 255, 255, 0.2);
         }
 
         @keyframes slideIn {
@@ -68,6 +69,10 @@
 
         .social-box.youtube {
             background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
+        }
+
+        .social-box.tiktok {
+            background: linear-gradient(135deg, #000000 0%, #000000 100%);
         }
 
         /* Efecto de fondo animado */
@@ -262,10 +267,9 @@
         @media (max-width: 768px) {
             .social-box {
                 width: 90%;
-                max-width: 400px;
-                height: auto;
-                padding: 40px 20px;
-                border-radius: 20px;
+                max-width: 500px;
+                height: 350px;
+                border-radius: 30px;
             }
 
             .icon-wrapper {
@@ -316,20 +320,26 @@
             {
                 name: 'KICK',
                 icon: 'fab fa-kickstarter',
-                handle: 'Rain_and_Thunder',
+                handle: 'Rain and Thunder',
                 className: 'kick'
             },
             {
                 name: 'INSTAGRAM',
                 icon: 'fab fa-instagram',
-                handle: 'rain_and_thunder27',
+                handle: 'Rain and Thunder',
                 className: 'instagram'
             },
             {
                 name: 'YOUTUBE',
                 icon: 'fab fa-youtube',
-                handle: 'RainandThunder27',
+                handle: 'Rain and Thunder',
                 className: 'youtube'
+            },
+            {
+                name: 'TIKTOK',
+                icon: 'fab fa-tiktok',
+                handle: 'Rain and Thunder',
+                className: 'tiktok'
             }
         ];
 
@@ -347,7 +357,7 @@
             socialContent.classList.remove('animate');
 
             // Cambiar clases y contenido
-            socialBox.classList.remove('kick', 'instagram', 'youtube');
+            socialBox.classList.remove('kick', 'instagram', 'youtube', 'tiktok');
             socialBox.classList.add(platform.className);
 
             platformName.textContent = platform.handle;
